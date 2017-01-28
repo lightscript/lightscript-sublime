@@ -4,15 +4,13 @@
 <dict>
 	<key>fileTypes</key>
 	<array>
-		<string>js</string>
-		<string>jsx</string>
-		<string>babel</string>
-		<string>es6</string>
+		<string>lsc</string>
+		<string>lsx</string>
 	</array>
 	<key>firstLineMatch</key>
-	<string>^#!\s*/.*\b(node|js)$\n?</string>
+	<string>^#!\s*/.*\b(lsc-node|js)$\n?</string>
 	<key>name</key>
-	<string>JavaScript (Babel)</string>
+	<string>LightScript</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -336,7 +334,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>([_$a-zA-Z][$\w]*)(?=\s*[:=])</string>
+					<string>([_$a-zA-Z][$\w]*)(?=\s*[:=](?!=))</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -670,7 +668,7 @@
 					<key>applyEndPatternLast</key>
 					<integer>1</integer>
 					<key>begin</key>
-					<string>(?:(\?)\s*)?(:)</string>
+					<string>(?:(\?)\s*)?(:(?!=))</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -1338,6 +1336,97 @@
 				<dict>
 					<key>begin</key>
 					<string>(?x)
+  ([_$a-zA-Z][$\w]*)
+  (?=(\((?&gt;(?&gt;[^()]+)|\g&lt;-1&gt;)*\))\s*([=-](?:get|set|\*|\/)?&gt;))</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function.js</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?&lt;=\))\s*([=-](?:get|set|\*|\/)?&gt;)</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.function.arrow.js</string>
+						</dict>
+					</dict>
+					<key>name</key>
+					<string>meta.function.arrow.js</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#function-declaration-parameters</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(?x)
+  (?=(\((?&gt;(?&gt;[^()]+)|\g&lt;-1&gt;)*\))\s*([=-](?:\*|\/)?&gt;))</string>
+					<key>end</key>
+					<string>(?&lt;=\))\s*([=-](?:\*|\/)?&gt;)</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.function.arrow.js</string>
+						</dict>
+					</dict>
+					<key>name</key>
+					<string>meta.function.arrow.js</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#function-declaration-parameters</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(?x)
+  (?&lt;=[$\w]\.)
+  ([_$a-zA-Z][$\w]*)
+  \s*(?=(\((?&gt;(?&gt;[^()]+)|\g&lt;-1&gt;)*\))\s*([=-](?:\*|\/)?&gt;))</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function.js</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?&lt;=\))\s*([=-](?:\*|\/)?&gt;)</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.function.arrow.js</string>
+						</dict>
+					</dict>
+					<key>name</key>
+					<string>meta.function.static.arrow.js</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#function-declaration-parameters</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(?x)
   (?:([_$a-zA-Z][$\w]*)\s*(=)\s*)?
   (?:\b(async)\s+)?
   (?=(\((?&gt;(?&gt;[^()]+)|\g&lt;-1&gt;)*\))\s*(=&gt;))</string>
@@ -1373,6 +1462,10 @@
 					<string>meta.function.arrow.js</string>
 					<key>patterns</key>
 					<array>
+						<dict>
+							<key>include</key>
+							<string>#flowtype-polymorph</string>
+						</dict>
 						<dict>
 							<key>include</key>
 							<string>#function-declaration-parameters</string>
@@ -1662,7 +1755,7 @@
     ((")((?&gt;[^"\\]|\\.)*)("))|
     (([_$a-zA-Z][$\w]*|\d+))
   )
-  \s*(:)
+  \s*(:(?!=))
   \s*(?:\b(async)\s+)?
   \s*(?=(\((?&gt;(?&gt;[^()]+)|\g&lt;-1&gt;)*\))\s*(=&gt;))</string>
 					<key>beginCaptures</key>
@@ -1829,7 +1922,7 @@
     ((")((?&gt;[^"\\]|\\.)*)("))|
     (([_$a-zA-Z][$\w]*|\d+))
   )
-  \s*(:)
+  \s*(:(?!=))
   \s*(?:\b(async)\s+)?
   \s*\b([_$a-zA-Z][$\w]*)\s*(=&gt;)</string>
 					<key>name</key>
@@ -2357,7 +2450,7 @@
     ((")((?&gt;[^"\\]|\\.)*)("))|
     (([_$a-zA-Z][$\w]*|\d+))
   )
-  \s*(:)
+  \s*(:(?!=))
   \s*(?:\b(async)\s+)?
   \s*(function)(?&gt;\s*(\*)|(?=[\s(&lt;]))
   \s*([_$a-zA-Z][$\w]*)?</string>
@@ -2518,7 +2611,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;if|else)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;if|else|elif)\b</string>
 					<key>name</key>
 					<string>keyword.control.conditional.js</string>
 				</dict>
@@ -2558,7 +2651,7 @@
   (?&lt;!\?)(?&lt;!\?\s)(?=(?&gt;
     ((')((?&gt;[^'\\]|\\.)*)('))|
     ((")((?&gt;[^"\\]|\\.)*)("))|
-  )\s*:)</string>
+  )\s*:(?!=))</string>
 					<key>end</key>
 					<string>:</string>
 					<key>endCaptures</key>
@@ -2592,7 +2685,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.|\?|\?\s)([_$a-zA-Z][$\w]*)\s*(:)</string>
+					<string>(?&lt;!\.|\?|\?\s)([_$a-zA-Z][$\w]*)\s*(:(?!=))</string>
 					<key>name</key>
 					<string>constant.other.object.key.js</string>
 				</dict>
@@ -2981,7 +3074,7 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;delete|instanceof|in|new|of|typeof|void|with)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;delete|instanceof|in|new|of|typeof|void|with|from|thru|til)\b</string>
 					<key>name</key>
 					<string>keyword.operator.js</string>
 				</dict>
@@ -2990,14 +3083,17 @@
 					<string>(?x)
   !(?!=)| # logical-not     right-to-left   right
   &amp;&amp;    | # logical-and     left-to-right   both
-  \|\|  | # logical-or      left-to-right   both</string>
+  \|\|  | # logical-or      left-to-right   both
+  or    | # logical-or      left-to-right   both
+  and   | # logical-and     left-to-right   both</string>
 					<key>name</key>
 					<string>keyword.operator.logical.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
 					<string>(?x)
-  =(?!=)| # assignment      right-to-left   both</string>
+  =(?!=)| # assignment      right-to-left   both
+  :=    | # assignment      right-to-left   both</string>
 					<key>name</key>
 					<string>keyword.operator.assignment.js</string>
 				</dict>

@@ -1,8 +1,8 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: JavaScript (Babel)
+name: LightScript
 scopeName: source.js
-fileTypes: [js, jsx, babel, es6]
-firstLineMatch: ^#!\s*/.*\b(node|js)$\n?
+fileTypes: [lsc,lsx]
+firstLineMatch: ^#!\s*/.*\b(lsc-node|js)$\n?
 
 patterns:
 - include: '#core'
@@ -331,7 +331,7 @@ repository:
   class-properties:
     patterns:
     - name: meta.class.property.js
-      begin: ([_$a-zA-Z][$\w]*)(?=\s*[:=])
+      begin: ([_$a-zA-Z][$\w]*)(?=\s*[:=](?!=))
       beginCaptures:
         '1': {name: variable.other.property.js}
       end: (?=\s*[;}])
@@ -493,7 +493,7 @@ repository:
               ((")((?>[^"\\]|\\.)*)("))|
               (([_$a-zA-Z][$\w]*|\d+))
             )
-            \s*(:)
+            \s*(:(?!=))
             \s*(?:\b(async)\s+)?
             \s*(function)(?>\s*(\*)|(?=[\s(<]))
             \s*([_$a-zA-Z][$\w]*)?
@@ -520,6 +520,52 @@ repository:
 
   literal-arrow-function:
     patterns:
+    # e.g. play(args) => { }
+    # LIGHTSCRIPT
+    - name: meta.function.arrow.js
+      begin: >-
+        (?x)
+          ([_$a-zA-Z][$\w]*)
+          (?=(\((?>(?>[^()]+)|\g<-1>)*\))\s*([=-](?:get|set|\*|\/)?>))
+      beginCaptures:
+        '1': {name: entity.name.function.js}
+      end: (?<=\))\s*([=-](?:get|set|\*|\/)?>)
+      endCaptures:
+        '1': {name: storage.type.function.arrow.js}
+      patterns:
+      - include: '#flowtype-polymorph'
+      - include: '#function-declaration-parameters'
+
+    # e.g. (args) -> { }
+    # LIGHTSCRIPT
+    - name: meta.function.arrow.js
+      begin: >-
+        (?x)
+          (?=(\((?>(?>[^()]+)|\g<-1>)*\))\s*([=-](?:\*|\/)?>))
+      end: (?<=\))\s*([=-](?:\*|\/)?>)
+      endCaptures:
+        '1': {name: storage.type.function.arrow.js}
+      patterns:
+      - include: '#function-declaration-parameters'
+
+    # e.g. foo.bar.play(args) => { }
+    # LIGHTSCRIPT
+    - name: meta.function.static.arrow.js
+      begin: >-
+        (?x)
+          (?<=[$\w]\.)
+          ([_$a-zA-Z][$\w]*)
+          \s*(?=(\((?>(?>[^()]+)|\g<-1>)*\))\s*([=-](?:\*|\/)?>))
+      beginCaptures:
+        '1': {name: entity.name.function.js}
+      end: (?<=\))\s*([=-](?:\*|\/)?>)
+      endCaptures:
+        '1': {name: storage.type.function.arrow.js}
+      patterns:
+      - include: '#flowtype-polymorph'
+      - include: '#function-declaration-parameters'
+
+
     # e.g. (args) => { }
     # e.g. play = (args) => { }
     - name: meta.function.arrow.js
@@ -649,7 +695,7 @@ repository:
             ((")((?>[^"\\]|\\.)*)("))|
             (([_$a-zA-Z][$\w]*|\d+))
           )
-          \s*(:)
+          \s*(:(?!=))
           \s*(?:\b(async)\s+)?
           \s*(?=(\((?>(?>[^()]+)|\g<-1>)*\))\s*(=>))
       beginCaptures:
@@ -681,7 +727,7 @@ repository:
             ((")((?>[^"\\]|\\.)*)("))|
             (([_$a-zA-Z][$\w]*|\d+))
           )
-          \s*(:)
+          \s*(:(?!=))
           \s*(?:\b(async)\s+)?
           \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
       captures:
@@ -836,7 +882,7 @@ repository:
       match: (?<!\.)\b(return)\b
 
     - name: keyword.control.conditional.js
-      match: (?<!\.)\b(?>if|else)\b
+      match: (?<!\.)\b(?>if|else|elif)\b
 
     - name: keyword.control.trycatch.js
       match: (?<!\.)\b(?>catch|finally|throw|try)\b
@@ -898,7 +944,7 @@ repository:
   literal-operators:
     patterns:
     - name: keyword.operator.js
-      match: (?<!\.)\b(?>delete|instanceof|in|new|of|typeof|void|with)\b
+      match: (?<!\.)\b(?>delete|instanceof|in|new|of|typeof|void|with|from|thru|til)\b
 
     - name: keyword.operator.logical.js
       match: >-
@@ -906,11 +952,14 @@ repository:
           !(?!=)| # logical-not     right-to-left   right
           &&    | # logical-and     left-to-right   both
           \|\|  | # logical-or      left-to-right   both
+          or    | # logical-or      left-to-right   both
+          and   | # logical-and     left-to-right   both
 
     - name: keyword.operator.assignment.js
       match: >-
         (?x)
           =(?!=)| # assignment      right-to-left   both
+          :=    | # assignment      right-to-left   both
 
     - name: keyword.operator.assignment.augmented.js
       match: >-
@@ -981,7 +1030,7 @@ repository:
           (?<!\?)(?<!\?\s)(?=(?>
             ((')((?>[^'\\]|\\.)*)('))|
             ((")((?>[^"\\]|\\.)*)("))|
-          )\s*:)
+          )\s*:(?!=))
       end: ':'
       endCaptures:
         '0': {name: punctuation.separator.key-value.js}
@@ -989,7 +1038,7 @@ repository:
       - include: '#literal-string'
 
     - name: constant.other.object.key.js
-      match: (?<!\.|\?|\?\s)([_$a-zA-Z][$\w]*)\s*(:)
+      match: (?<!\.|\?|\?\s)([_$a-zA-Z][$\w]*)\s*(:(?!=))
       captures:
         '1': {name: string.unquoted.label.js}
         '2': {name: punctuation.separator.key-value.js}
@@ -1031,6 +1080,7 @@ repository:
     patterns:
     # ignore ++, -- since they're uncommon, distinguishing them is not possible in sublime text, see:
     # http://stackoverflow.com/questions/5519596/when-parsing-javascript-what-determines-the-meaning-of-a-slash
+    # TODO LIGHTSCRIPT: ensure there is not an opening space
     - name: string.regexp.js
       begin: >-
         (?x)
@@ -1347,7 +1397,7 @@ repository:
   flowtype-annotation:
     patterns:
     - name: meta.flowtype.annotation.js
-      begin: (?:(\?)\s*)?(:)
+      begin: (?:(\?)\s*)?(:(?!=))
       beginCaptures:
         '1': {name: keyword.operator.flowtype.optional.js}
         '2': {name: keyword.operator.flowtype.annotation.js}
