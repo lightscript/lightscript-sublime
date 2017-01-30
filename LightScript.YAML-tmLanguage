@@ -1,7 +1,7 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 name: LightScript
 scopeName: source.js
-fileTypes: [lsc,lsx]
+fileTypes: [lsc,lsx,light.js,light.jsx]
 firstLineMatch: ^#!\s*/.*\b(lsc-node|js)$\n?
 
 patterns:
