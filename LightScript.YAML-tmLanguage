@@ -163,6 +163,39 @@ repository:
 
   literal-class:
     patterns:
+    # a halfhearted attempt at lightscript classes, that just ignores the body
+    # the other approach I came up with detected top-level dedent with `^(?<!\s\s)(?=\S)`
+    # note, this is a pretty hacky stopgap.
+    # non-lightscript methods don't highlight properly within the bodies, and vice versa.
+    - name: meta.class.js
+      begin: >-
+        (?x)
+          (?<!\.)\b(?:(class)|(interface))\b
+          (?=[^\n]+:)
+      beginCaptures:
+        '1': {name: storage.type.class.js}
+        '2': {name: storage.type.interface.flowtype.js}
+      end: (:)
+      endCaptures:
+        '0': {name: meta.brace.curly.begin.js}
+      patterns:
+      - include: '#comments'
+      - begin: ([_$a-zA-Z][$\w]*)
+        beginCaptures:
+          '0': {name: entity.name.class.js}
+        end: (?=:)
+        patterns:
+        - include: '#comments'
+        - include: '#flowtype-polymorph'
+        - name: meta.class.extends.js
+          begin: (?<!\.)\b(extends)\b
+          beginCaptures:
+            '0': {name: storage.type.extends.js}
+          end: (?=:)
+          patterns:
+          - include: '#flowtype-polymorph'
+          - include: '#expression'
+
     # e.g. class MyClass {  }
     - name: meta.class.js
       begin: (?<!\.)\b(?:(class)|(interface))\b
@@ -196,6 +229,7 @@ repository:
         patterns:
         - include: '#es7-decorators'
         - include: '#class-properties'
+        - include: '#named-arrow-function'
         - include: '#class-method-definition'
         - include: '#class-method-storage'
         - include: '#brackets'
@@ -518,24 +552,44 @@ repository:
       - include: '#flowtype-polymorph'
       - include: '#function-declaration-parameters'
 
-  literal-arrow-function:
+  named-arrow-function:
     patterns:
-    # e.g. play(args) => { }
+    # e.g. play(args) =>
     # LIGHTSCRIPT
     - name: meta.function.arrow.js
       begin: >-
         (?x)
           ([_$a-zA-Z][$\w]*)
-          (?=(\((?>(?>[^()]+)|\g<-1>)*\))\s*([=-](?:get|set|\*|\/)?>))
+          (?=
+            (?:\<[^\n]+\>)?
+            (\((?>(?>[^()]+)|\g<-1>)*\))
+            (?::[^\n]+)?
+            \s*
+            [=-](?:get|set|\*|\/)?>
+          )
       beginCaptures:
         '1': {name: entity.name.function.js}
-      end: (?<=\))\s*([=-](?:get|set|\*|\/)?>)
+      end: \s*([=-](?:get|set|\*|\/)?>)
       endCaptures:
         '1': {name: storage.type.function.arrow.js}
       patterns:
-      - include: '#flowtype-polymorph'
-      - include: '#function-declaration-parameters'
+      - begin: (?<=[$\w])(?=\<)
+        end: (?<=\>)(?=\()
+        patterns:
+        - include: '#flowtype-polymorph'
+      - begin: (?=\()
+        end: (?<=\))
+        patterns:
+        - include: '#function-declaration-parameters'
+      - begin: (?<=\))(?=:)
+        end: (?=\s*[=-](?:get|set|\*|\/)?>)
+        patterns:
+        - include: '#flowtype-annotation'
 
+
+  literal-arrow-function:
+    patterns:
+    - include: '#named-arrow-function'
     # e.g. (args) -> { }
     # LIGHTSCRIPT
     - name: meta.function.arrow.js

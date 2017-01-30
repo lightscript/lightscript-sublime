@@ -1,0 +1,71 @@
+// this isn't a real test file (yet), just monkeying around with examples
+
+fn(): void -> 4
+
+someFn() ->
+  return something()
+
+someOtherFn() -> 4
+
+someOtherFn() -*> 3
+
+const x: void = 4
+
+fn(blah): void -> 4
+fn(blah: T = {}, bar: number = 8, ...blah): void -> 4
+fn<T>(blah: T = {}, bar: number = 8, ...blah): void -> 4
+
+foo = (blah = {}, bar: number = 8) => {
+
+}
+
+function foo(blah = {}, bar: number = 8, ...blah): void {
+
+}
+
+class HelloWorld extends Blah<T>:
+  constructor() ->
+    hello()
+
+  bar<thing>(blah): void ->
+    hello()
+    1 + 1
+  export default blah
+
+d
+
+class Blah<T>:
+  @decorator()
+  thing = 4
+  method() -> {
+
+  }
+  x: 4
+export default HelloWorld
+
+class Hello {
+  method() {
+
+  }
+  method2() {
+  }
+
+}
+
+hello
+
+
+if true {
+  class SomeThing {
+    method() {}
+    method() -get> {
+      blah()
+    }
+    method3() {
+      hello()
+    }
+  }
+  class Hello:
+    method() ->
+      blah()
+}

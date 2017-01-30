@@ -1334,37 +1334,8 @@
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>begin</key>
-					<string>(?x)
-  ([_$a-zA-Z][$\w]*)
-  (?=(\((?&gt;(?&gt;[^()]+)|\g&lt;-1&gt;)*\))\s*([=-](?:get|set|\*|\/)?&gt;))</string>
-					<key>beginCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>entity.name.function.js</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>(?&lt;=\))\s*([=-](?:get|set|\*|\/)?&gt;)</string>
-					<key>endCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>storage.type.function.arrow.js</string>
-						</dict>
-					</dict>
-					<key>name</key>
-					<string>meta.function.arrow.js</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#function-declaration-parameters</string>
-						</dict>
-					</array>
+					<key>include</key>
+					<string>#named-arrow-function</string>
 				</dict>
 				<dict>
 					<key>begin</key>
@@ -1420,6 +1391,10 @@
 					<array>
 						<dict>
 							<key>include</key>
+							<string>#flowtype-polymorph</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#function-declaration-parameters</string>
 						</dict>
 					</array>
@@ -1462,10 +1437,6 @@
 					<string>meta.function.arrow.js</string>
 					<key>patterns</key>
 					<array>
-						<dict>
-							<key>include</key>
-							<string>#flowtype-polymorph</string>
-						</dict>
 						<dict>
 							<key>include</key>
 							<string>#function-declaration-parameters</string>
@@ -1936,6 +1907,96 @@
 			<array>
 				<dict>
 					<key>begin</key>
+					<string>(?x)
+  (?&lt;!\.)\b(?:(class)|(interface))\b
+  (?=[^\n]+:)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.class.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.interface.flowtype.js</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(:)</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>meta.brace.curly.begin.js</string>
+						</dict>
+					</dict>
+					<key>name</key>
+					<string>meta.class.js</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
+						<dict>
+							<key>begin</key>
+							<string>([_$a-zA-Z][$\w]*)</string>
+							<key>beginCaptures</key>
+							<dict>
+								<key>0</key>
+								<dict>
+									<key>name</key>
+									<string>entity.name.class.js</string>
+								</dict>
+							</dict>
+							<key>end</key>
+							<string>(?=:)</string>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>include</key>
+									<string>#comments</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#flowtype-polymorph</string>
+								</dict>
+								<dict>
+									<key>begin</key>
+									<string>(?&lt;!\.)\b(extends)\b</string>
+									<key>beginCaptures</key>
+									<dict>
+										<key>0</key>
+										<dict>
+											<key>name</key>
+											<string>storage.type.extends.js</string>
+										</dict>
+									</dict>
+									<key>end</key>
+									<string>(?=:)</string>
+									<key>name</key>
+									<string>meta.class.extends.js</string>
+									<key>patterns</key>
+									<array>
+										<dict>
+											<key>include</key>
+											<string>#flowtype-polymorph</string>
+										</dict>
+										<dict>
+											<key>include</key>
+											<string>#expression</string>
+										</dict>
+									</array>
+								</dict>
+							</array>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
 					<string>(?&lt;!\.)\b(?:(class)|(interface))\b</string>
 					<key>beginCaptures</key>
 					<dict>
@@ -2042,6 +2103,10 @@
 								<dict>
 									<key>include</key>
 									<string>#class-properties</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#named-arrow-function</string>
 								</dict>
 								<dict>
 									<key>include</key>
@@ -3621,6 +3686,86 @@
 					</dict>
 					<key>match</key>
 					<string>^([&gt;]{7})\s(.+)$</string>
+				</dict>
+			</array>
+		</dict>
+		<key>named-arrow-function</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?x)
+  ([_$a-zA-Z][$\w]*)
+  (?=
+    (?:\&lt;[^\n]+\&gt;)?
+    (\((?&gt;(?&gt;[^()]+)|\g&lt;-1&gt;)*\))
+    (?::[^\n]+)?
+    \s*
+    [=-](?:get|set|\*|\/)?&gt;
+  )</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function.js</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>\s*([=-](?:get|set|\*|\/)?&gt;)</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.function.arrow.js</string>
+						</dict>
+					</dict>
+					<key>name</key>
+					<string>meta.function.arrow.js</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>begin</key>
+							<string>(?&lt;=[$\w])(?=\&lt;)</string>
+							<key>end</key>
+							<string>(?&lt;=\&gt;)(?=\()</string>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>include</key>
+									<string>#flowtype-polymorph</string>
+								</dict>
+							</array>
+						</dict>
+						<dict>
+							<key>begin</key>
+							<string>(?=\()</string>
+							<key>end</key>
+							<string>(?&lt;=\))</string>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>include</key>
+									<string>#function-declaration-parameters</string>
+								</dict>
+							</array>
+						</dict>
+						<dict>
+							<key>begin</key>
+							<string>(?&lt;=\))(?=:)</string>
+							<key>end</key>
+							<string>(?=\s*[=-](?:get|set|\*|\/)?&gt;)</string>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>include</key>
+									<string>#flowtype-annotation</string>
+								</dict>
+							</array>
+						</dict>
+					</array>
 				</dict>
 			</array>
 		</dict>
