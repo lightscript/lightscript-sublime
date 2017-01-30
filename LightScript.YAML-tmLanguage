@@ -12,6 +12,7 @@ repository:
     patterns:
     - include: '#literal-function-labels'
     - include: '#literal-arrow-function-labels'
+    - include: '#literal-lightscript-blocks'
     - include: '#literal-labels'
 
     - include: '#literal-for'
@@ -950,21 +951,51 @@ repository:
     - name: keyword.other.js
       match: (?<!\.)\b(debugger)\b
 
+  literal-lightscript-blocks:
+    patterns:
+    - name: meta.if.js
+      begin: (?<!\.)\b(if|elif|else)\b
+      beginCaptures:
+        '1': {name: keyword.control.conditional.js}
+      end: (:)
+      endCaptures:
+        '0': {name: meta.brace.round.begin.js}
+      patterns:
+      - include: '#comments'
+      - include: '#expression'
+
+    - name: meta.try.js
+      match: (?<!\.)\b(try)(:)
+      captures:
+        '1': {name: keyword.control.trycatch.js}
+        '2': {name: meta.brace.round.begin.js}
+
+    - name: meta.catch.js
+      begin: (?<!\.)\b(catch)\b
+      beginCaptures:
+        '1': {name: keyword.control.trycatch.js}
+      end: (:)
+      endCaptures:
+        '0': {name: meta.brace.round.begin.js}
+      patterns:
+      - include: '#comments'
+      - include: '#literal-variable'
+
   literal-for:
     patterns:
     - name: meta.for.js
       begin: (?<!\.)\b(for)\b
       beginCaptures:
         '1': {name: keyword.control.loop.js}
-      end: \)
+      end: (?:\)|:)
       endCaptures:
         '0': {name: meta.brace.round.end.js}
       patterns:
       - include: '#comments'
-      - begin: \(
+      - begin: (?:\(|(?=[_$a-zA-Z]|\{|\[))
         beginCaptures:
           '0': {name: meta.brace.round.begin.js}
-        end: (?=\))
+        end: (?=\)|:)
         patterns:
         - include: '#literal-keyword-storage'
         - include: '#expression'

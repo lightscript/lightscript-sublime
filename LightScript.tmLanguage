@@ -465,6 +465,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#literal-lightscript-blocks</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#literal-labels</string>
 				</dict>
 				<dict>
@@ -2193,7 +2197,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>\)</string>
+					<string>(?:\)|:)</string>
 					<key>endCaptures</key>
 					<dict>
 						<key>0</key>
@@ -2212,7 +2216,7 @@
 						</dict>
 						<dict>
 							<key>begin</key>
-							<string>\(</string>
+							<string>(?:\(|(?=[_$a-zA-Z]|\{|\[))</string>
 							<key>beginCaptures</key>
 							<dict>
 								<key>0</key>
@@ -2222,7 +2226,7 @@
 								</dict>
 							</dict>
 							<key>end</key>
-							<string>(?=\))</string>
+							<string>(?=\)|:)</string>
 							<key>patterns</key>
 							<array>
 								<dict>
@@ -2839,6 +2843,101 @@
 					<string>(?&lt;=\.)(prototype)\b</string>
 					<key>name</key>
 					<string>variable.language.prototype.js</string>
+				</dict>
+			</array>
+		</dict>
+		<key>literal-lightscript-blocks</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?&lt;!\.)\b(if|elif|else)\b</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.conditional.js</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(:)</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>meta.brace.round.begin.js</string>
+						</dict>
+					</dict>
+					<key>name</key>
+					<string>meta.if.js</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#expression</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.trycatch.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>meta.brace.round.begin.js</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\b(try)(:)</string>
+					<key>name</key>
+					<string>meta.try.js</string>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(?&lt;!\.)\b(catch)\b</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.trycatch.js</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(:)</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>meta.brace.round.begin.js</string>
+						</dict>
+					</dict>
+					<key>name</key>
+					<string>meta.catch.js</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#literal-variable</string>
+						</dict>
+					</array>
 				</dict>
 			</array>
 		</dict>
