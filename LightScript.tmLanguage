@@ -3251,7 +3251,7 @@
   &amp;&amp;    | # logical-and     left-to-right   both
   \|\|  | # logical-or      left-to-right   both
   or    | # logical-or      left-to-right   both
-  and   | # logical-and     left-to-right   both</string>
+  and     # logical-and     left-to-right   both</string>
 					<key>name</key>
 					<string>keyword.operator.logical.js</string>
 				</dict>
@@ -3259,7 +3259,7 @@
 					<key>match</key>
 					<string>(?x)
   =(?!=)| # assignment      right-to-left   both
-  :=    | # assignment      right-to-left   both</string>
+  :=      # assignment      right-to-left   both</string>
 					<key>name</key>
 					<string>keyword.operator.assignment.js</string>
 				</dict>
@@ -3276,7 +3276,7 @@
   \|=  | # assignment      right-to-left   both
   &lt;&lt;=  | # assignment      right-to-left   both
   &gt;&gt;=  | # assignment      right-to-left   both
-  &gt;&gt;&gt;= | # assignment      right-to-left   both</string>
+  &gt;&gt;&gt;=   # assignment      right-to-left   both</string>
 					<key>name</key>
 					<string>keyword.operator.assignment.augmented.js</string>
 				</dict>
@@ -4201,28 +4201,6 @@
 					</dict>
 					<key>match</key>
 					<string>(?&lt;!\.)\b(process)(?:(\.)(?:(arch|argv|config|env|execArgv|execPath|exitCode|mainModule|pid|platform|stderr|stdin|stdout|title|version|versions)|(abort|chdir|cwd|exit|getgid|getgroups|getuid|hrtime|initgroups|kill|memoryUsage|nextTick|setgid|setgroups|setuid|umask|uptime)))?\b</string>
-				</dict>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>support.type.object.module.js</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.operator.accessor.js</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>support.type.object.module.js</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(?&lt;!\.)\b(exports|module(?:(\.)(children|exports|filename|id|loaded|parent)))?\b</string>
 				</dict>
 				<dict>
 					<key>begin</key>
