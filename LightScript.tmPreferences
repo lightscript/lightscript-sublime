@@ -3,19 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>JSX 2</string>
+	<string>LightScript</string>
 	<key>scope</key>
-	<string>source.js - string - comment</string>
+	<string>source.js</string>
 	<key>settings</key>
 	<dict>
-		<key>decreaseIndentPattern</key>
-		<string>(?x)
-    ^\s*&lt;/[^&gt;]+&gt;$
-  | ^\s*/&gt;$</string>
 		<key>increaseIndentPattern</key>
 		<string>(?x)
-    ^\s*&lt;[^/&gt;]+&gt;$
-  | ^\s*&lt;[^/&gt;\s]+$</string>
+  ^(if|elif|else|try|catch|for)[^\n]*:$ |
+  ^[\w_$]*\([^\n]*\)(?:\:\s+[^\n]+)?\s+[-=](?:get|set|\/|\*)?&gt;$</string>
 	</dict>
 </dict>
 </plist>

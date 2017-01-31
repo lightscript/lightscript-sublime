@@ -1,0 +1,8 @@
+# [PackageDev] target_format: plist, ext: tmPreferences
+name: LightScript
+scope: source.js
+settings:
+  increaseIndentPattern: >-
+    (?x)
+      ^(if|elif|else|try|catch|for)[^\n]*:$ |
+      ^[\w_$]*\([^\n]*\)(?:\:\s+[^\n]+)?\s+[-=](?:get|set|\/|\*)?>$
