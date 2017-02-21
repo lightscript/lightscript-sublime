@@ -366,7 +366,7 @@ repository:
   class-properties:
     patterns:
     - name: meta.class.property.js
-      begin: ([_$a-zA-Z][$\w]*)(?=\s*[:=](?!=))
+      begin: ([_$a-zA-Z][$\w]*)(?=\s*[:=])
       beginCaptures:
         '1': {name: variable.other.property.js}
       end: (?=\s*[;}])
@@ -528,7 +528,7 @@ repository:
               ((")((?>[^"\\]|\\.)*)("))|
               (([_$a-zA-Z][$\w]*|\d+))
             )
-            \s*(:(?!=))
+            \s*(:)
             \s*(?:\b(async)\s+)?
             \s*(function)(?>\s*(\*)|(?=[\s(<]))
             \s*([_$a-zA-Z][$\w]*)?
@@ -750,7 +750,7 @@ repository:
             ((")((?>[^"\\]|\\.)*)("))|
             (([_$a-zA-Z][$\w]*|\d+))
           )
-          \s*(:(?!=))
+          \s*(:)
           \s*(?:\b(async)\s+)?
           \s*(?=(\((?>(?>[^()]+)|\g<-1>)*\))\s*(=>))
       beginCaptures:
@@ -782,7 +782,7 @@ repository:
             ((")((?>[^"\\]|\\.)*)("))|
             (([_$a-zA-Z][$\w]*|\d+))
           )
-          \s*(:(?!=))
+          \s*(:)
           \s*(?:\b(async)\s+)?
           \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
       captures:
@@ -922,7 +922,7 @@ repository:
   literal-keyword-storage:
     patterns:
     - name: storage.type.js
-      match: (?<!\.)\b(?>const|let|var)\b
+      match: (?<!\.)\b(?>const|let|var|now)\b
 
   literal-keywords:
     patterns:
@@ -1044,8 +1044,7 @@ repository:
     - name: keyword.operator.assignment.js
       match: >-
         (?x)
-          =(?!=)| # assignment      right-to-left   both
-          :=      # assignment      right-to-left   both
+          =(?!=)  # assignment      right-to-left   both
 
     - name: keyword.operator.assignment.augmented.js
       match: >-
@@ -1116,7 +1115,7 @@ repository:
           (?<!\?)(?<!\?\s)(?=(?>
             ((')((?>[^'\\]|\\.)*)('))|
             ((")((?>[^"\\]|\\.)*)("))|
-          )\s*:(?!=))
+          )\s*:)
       end: ':'
       endCaptures:
         '0': {name: punctuation.separator.key-value.js}
@@ -1124,7 +1123,7 @@ repository:
       - include: '#literal-string'
 
     - name: constant.other.object.key.js
-      match: (?<!\.|\?|\?\s)([_$a-zA-Z][$\w]*)\s*(:(?!=))
+      match: (?<!\.|\?|\?\s)([_$a-zA-Z][$\w]*)\s*(:)
       captures:
         '1': {name: string.unquoted.label.js}
         '2': {name: punctuation.separator.key-value.js}
@@ -1485,7 +1484,7 @@ repository:
   flowtype-annotation:
     patterns:
     - name: meta.flowtype.annotation.js
-      begin: (?:(\?)\s*)?(:(?!=))
+      begin: (?:(\?)\s*)?(:)
       beginCaptures:
         '1': {name: keyword.operator.flowtype.optional.js}
         '2': {name: keyword.operator.flowtype.annotation.js}

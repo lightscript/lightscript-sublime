@@ -336,7 +336,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>([_$a-zA-Z][$\w]*)(?=\s*[:=](?!=))</string>
+					<string>([_$a-zA-Z][$\w]*)(?=\s*[:=])</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -674,7 +674,7 @@
 					<key>applyEndPatternLast</key>
 					<integer>1</integer>
 					<key>begin</key>
-					<string>(?:(\?)\s*)?(:(?!=))</string>
+					<string>(?:(\?)\s*)?(:)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -1732,7 +1732,7 @@
     ((")((?&gt;[^"\\]|\\.)*)("))|
     (([_$a-zA-Z][$\w]*|\d+))
   )
-  \s*(:(?!=))
+  \s*(:)
   \s*(?:\b(async)\s+)?
   \s*(?=(\((?&gt;(?&gt;[^()]+)|\g&lt;-1&gt;)*\))\s*(=&gt;))</string>
 					<key>beginCaptures</key>
@@ -1899,7 +1899,7 @@
     ((")((?&gt;[^"\\]|\\.)*)("))|
     (([_$a-zA-Z][$\w]*|\d+))
   )
-  \s*(:(?!=))
+  \s*(:)
   \s*(?:\b(async)\s+)?
   \s*\b([_$a-zA-Z][$\w]*)\s*(=&gt;)</string>
 					<key>name</key>
@@ -2521,7 +2521,7 @@
     ((")((?&gt;[^"\\]|\\.)*)("))|
     (([_$a-zA-Z][$\w]*|\d+))
   )
-  \s*(:(?!=))
+  \s*(:)
   \s*(?:\b(async)\s+)?
   \s*(function)(?&gt;\s*(\*)|(?=[\s(&lt;]))
   \s*([_$a-zA-Z][$\w]*)?</string>
@@ -2643,7 +2643,7 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;const|let|var)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;const|let|var|now)\b</string>
 					<key>name</key>
 					<string>storage.type.js</string>
 				</dict>
@@ -2722,7 +2722,7 @@
   (?&lt;!\?)(?&lt;!\?\s)(?=(?&gt;
     ((')((?&gt;[^'\\]|\\.)*)('))|
     ((")((?&gt;[^"\\]|\\.)*)("))|
-  )\s*:(?!=))</string>
+  )\s*:)</string>
 					<key>end</key>
 					<string>:</string>
 					<key>endCaptures</key>
@@ -2756,7 +2756,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.|\?|\?\s)([_$a-zA-Z][$\w]*)\s*(:(?!=))</string>
+					<string>(?&lt;!\.|\?|\?\s)([_$a-zA-Z][$\w]*)\s*(:)</string>
 					<key>name</key>
 					<string>constant.other.object.key.js</string>
 				</dict>
@@ -3259,8 +3259,7 @@
 				<dict>
 					<key>match</key>
 					<string>(?x)
-  =(?!=)| # assignment      right-to-left   both
-  :=      # assignment      right-to-left   both</string>
+  =(?!=)  # assignment      right-to-left   both</string>
 					<key>name</key>
 					<string>keyword.operator.assignment.js</string>
 				</dict>
