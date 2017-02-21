@@ -1038,7 +1038,8 @@ repository:
           &&    | # logical-and     left-to-right   both
           \|\|  | # logical-or      left-to-right   both
           or    | # logical-or      left-to-right   both
-          and     # logical-and     left-to-right   both
+          and   | # logical-and     left-to-right   both
+          not     # logical-not     left-to-right   both
 
     - name: keyword.operator.assignment.js
       match: >-
