@@ -4,5 +4,14 @@ scope: source.js
 settings:
   increaseIndentPattern: >-
     (?x)
-      ^(if|elif|else|try|catch|for)[^\n]*:$ |
-      ^[\w_$]*\([^\n]*\)(?:\:\s+[^\n]+)?\s+[-=](?:get|set|\/|\*)?>$
+      (if|elif|else|try|catch|for)[^\n]*:$
+      | [\w_$]*\([^\n]*\)(?:\:\s+[^\n]+)?\s+[-=](?:get|set|\/|\*)?>$
+      | {[^}\"']*$
+      | \[[^\]\"']*$
+      | \([^)\"']*$
+      | <[a-zA-Z][^/]*$
+      | ^\s*>$
+  decreaseIndentPattern: >-
+    (?x)
+      ^\s*(\s*/[*].*[*]/\s*)*[}\])]
+      | ^\s*(</|/>)

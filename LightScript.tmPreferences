@@ -8,10 +8,19 @@
 	<string>source.js</string>
 	<key>settings</key>
 	<dict>
+		<key>decreaseIndentPattern</key>
+		<string>(?x)
+  ^\s*(\s*/[*].*[*]/\s*)*[}\])]
+  | ^\s*(&lt;/|/&gt;)</string>
 		<key>increaseIndentPattern</key>
 		<string>(?x)
-  ^(if|elif|else|try|catch|for)[^\n]*:$ |
-  ^[\w_$]*\([^\n]*\)(?:\:\s+[^\n]+)?\s+[-=](?:get|set|\/|\*)?&gt;$</string>
+  (if|elif|else|try|catch|for)[^\n]*:$
+  | [\w_$]*\([^\n]*\)(?:\:\s+[^\n]+)?\s+[-=](?:get|set|\/|\*)?&gt;$
+  | {[^}\"']*$
+  | \[[^\]\"']*$
+  | \([^)\"']*$
+  | &lt;[a-zA-Z][^/]*$
+  | ^\s*&gt;$</string>
 	</dict>
 </dict>
 </plist>
