@@ -1,0 +1,8 @@
+lightscript-sublime
+-------------------
+
+First release of LightScript syntax highlighting. 
+
+Hacky and probably incomplete.
+
+Since this is a fork, and Sublime Package Control uses git tags for versioning, a version bump of 100 is being used to ensure LightScript is ahead of previous Babel versions. 
