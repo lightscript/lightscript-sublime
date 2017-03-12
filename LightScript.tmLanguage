@@ -3247,12 +3247,12 @@
 				<dict>
 					<key>match</key>
 					<string>(?x)
-  !(?!=)| # logical-not     right-to-left   right
-  &amp;&amp;    | # logical-and     left-to-right   both
-  \|\|  | # logical-or      left-to-right   both
-  or    | # logical-or      left-to-right   both
-  and   | # logical-and     left-to-right   both
-  not     # logical-not     left-to-right   both</string>
+  !(?!=)   | # logical-not     right-to-left   right
+  &amp;&amp;       | # logical-and     left-to-right   both
+  \|\|     | # logical-or      left-to-right   both
+  or(?=\s) | # logical-or      left-to-right   both
+  and(?=\s)| # logical-and     left-to-right   both
+  not(?=\s)    # logical-not     left-to-right   both</string>
 					<key>name</key>
 					<string>keyword.operator.logical.js</string>
 				</dict>
