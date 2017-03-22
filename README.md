@@ -1,5 +1,7 @@
 # lightscript-sublime
 
+Syntax Highlighting for [LightScript](http://lightscript.org)
+
 Based on [babel-sublime](https://github.com/babel/babel-sublime). 
 
 Only supports Sublime Text 3.

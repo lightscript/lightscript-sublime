@@ -6,8 +6,8 @@
 	<array>
 		<string>lsc</string>
 		<string>lsx</string>
-		<string>light.js</string>
-		<string>light.jsx</string>
+		<string>lsc.js</string>
+		<string>lsc.jsx</string>
 	</array>
 	<key>firstLineMatch</key>
 	<string>^#!\s*/.*\b(lsc-node|js)$\n?</string>
