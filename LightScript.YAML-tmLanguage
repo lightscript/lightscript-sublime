@@ -1029,7 +1029,7 @@ repository:
   literal-operators:
     patterns:
     - name: keyword.operator.js
-      match: (?<!\.)\b(?>delete|instanceof|in|new|of|typeof|void|with|from|thru|til)\b
+      match: (?<!\.)\b(?>delete|instanceof|in|new|of|typeof|void|with|from|idx|elem|key|val)\b
 
     - name: keyword.operator.logical.js
       match: >-
@@ -1039,7 +1039,7 @@ repository:
           \|\|     | # logical-or      left-to-right   both
           or(?=\s) | # logical-or      left-to-right   both
           and(?=\s)| # logical-and     left-to-right   both
-          not(?=\s)    # logical-not     left-to-right   both
+          not(?=\s)  # logical-not     left-to-right   both
 
     - name: keyword.operator.assignment.js
       match: >-
